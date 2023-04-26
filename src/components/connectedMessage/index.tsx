@@ -1,7 +1,5 @@
-import { FaUserCircle } from "react-icons/fa";
-
 interface ConnectedMessageProps {
-  id: string;
+  id?: string;
 }
 
 export function ConnectedMessage({ id }: ConnectedMessageProps) {

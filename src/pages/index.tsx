@@ -16,7 +16,7 @@ interface Message {
 export default function Home() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [myId, setId] = useState<string>("");
+  const [myId, setId] = useState<string | undefined>("");
 
   function handleSubmitMessage(message: string) {
     socket?.emit("send-message", message);
@@ -27,6 +27,7 @@ export default function Home() {
   }
 
   function onReciveMessage(message: Message) {
+    setId(message.user)
     setMessages(prev => [...prev, message])
   }
 
@@ -48,9 +49,6 @@ export default function Home() {
 
 
   }, []);
-
-  console.log(messages)
-
 
   return (
     <main style={inter.style} className="mb-20">
