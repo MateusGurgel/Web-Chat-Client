@@ -3,7 +3,7 @@ import { Message } from "@/components/message";
 import { MessageInput } from "@/components/messageInput";
 import { serverEndPoint } from "@/config";
 import { Inter } from "next/font/google";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,8 +26,12 @@ export default function Home() {
     console.log("Connected!");
   }
 
+  function onReciveChatID(id : string) {
+    console.log(id)
+    setId(id)
+  }
+
   function onReciveMessage(message: Message) {
-    setId(message.user)
     setMessages(prev => [...prev, message])
   }
 
@@ -41,10 +45,12 @@ export default function Home() {
 
     socket.on("connect", onConnect);
     socket.on("recive-message", onReciveMessage)
+    socket.on("recive-id", onReciveChatID)
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("recive-message", onReciveMessage)
+      socket.off("recive-id", onReciveChatID)
     } 
 
 
